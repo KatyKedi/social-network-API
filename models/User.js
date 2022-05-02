@@ -12,7 +12,14 @@ const UserSchema = new Schema(
             type: String,
             unique: true,
             required: true,
-            // must match a valid email address
+            validate: 
+                [
+                    (email) => {
+                        const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                        return regexEmail.test(email)
+                    },
+                    'Please enter a valid email.'
+                ]
         },
         thoughts: [
             {
@@ -26,5 +33,20 @@ const UserSchema = new Schema(
                 ref: 'User'
             }
         ]
+    },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true
+        },
+        // prevents virtuals from creating duplicate of _id as `id`
+        id: false
     }
 )
+
+UserSchema.virtual('friendCount').get(function() {
+    return this.friends.length;
+});
+
+const User = model('User', UserSchema);
+module.exports = User;
