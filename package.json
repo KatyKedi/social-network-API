@@ -3,7 +3,7 @@
     "express": "^4.17.3",
     "mongoose": "^6.3.1"
   },
-  "name": "social-network-api",
+  "name": "18-nosql",
   "description": "",
   "version": "1.0.0",
   "main": "server.js",
